@@ -1,0 +1,9 @@
+/* Notability PDF — most styling is inline via JS.
+   Keep selectors minimal to avoid clashing with the active theme. */
+
+.nota-text-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}

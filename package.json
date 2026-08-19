@@ -1,0 +1,27 @@
+{
+  "name": "obsidian-notability-pdf",
+  "version": "1.2.0",
+  "description": "Notability-style PDF handwriting for Obsidian — bundled for mobile/iPad (no CDN, worker inlined).",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "node esbuild.config.mjs production"
+  },
+  "keywords": [
+    "obsidian",
+    "pdf",
+    "annotation",
+    "handwriting",
+    "notability",
+    "ipad"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "pdfjs-dist": "3.11.174"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.2",
+    "obsidian": "^1.5.7"
+  }
+}
