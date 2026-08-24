@@ -1,7 +1,7 @@
 {
   "id": "notability-pdf",
   "name": "Notability PDF",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "minAppVersion": "1.1.0",
   "description": "Notability-style PDF handwriting: open any PDF in your vault and annotate with pen, highlighter, and eraser. Bundled pdf.js — works on iPad/mobile.",
   "author": "Claudian",

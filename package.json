@@ -1,6 +1,6 @@
 {
   "name": "obsidian-notability-pdf",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Notability-style PDF handwriting for Obsidian — bundled for mobile/iPad (no CDN, worker inlined).",
   "main": "main.js",
   "scripts": {

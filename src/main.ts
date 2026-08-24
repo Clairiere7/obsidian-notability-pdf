@@ -13,15 +13,28 @@
  */
 import { Plugin, ItemView, Notice, TFile, Modal } from 'obsidian';
 import * as pdfjsLib from 'pdfjs-dist';
+// Importing the worker entry populates `window.pdfjsWorker.WorkerMessageHandler`.
+// pdf.js uses that when it falls back to a "fake worker" (main-thread) on
+// platforms where a real Web Worker can't be spawned from a blob URL — i.e.
+// Obsidian mobile / iPad, whose CSP blocks blob workers. Without this, opening
+// a PDF on iPad fails with "Setting up fake worker failed".
+import 'pdfjs-dist/build/pdf.worker.entry';
 import workerRaw from 'pdfjs-dist/build/pdf.worker.min.js?raw';
 
 const VIEW_TYPE = 'notability-pdf';
 
 function ensureWorker() {
+    // Prefer a real Web Worker (desktop) for speed. pdf.js falls back to the
+    // fake worker (mobile, via window.pdfjsWorker) automatically if the blob
+    // worker is blocked — so this works on both desktop and iPad.
     if (pdfjsLib.GlobalWorkerOptions.workerSrc) return;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(
-        new Blob([workerRaw as unknown as BlobPart], { type: 'text/javascript' })
-    );
+    try {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(
+            new Blob([workerRaw as unknown as BlobPart], { type: 'text/javascript' })
+        );
+    } catch (e) {
+        // Real worker unavailable; fake worker (window.pdfjsWorker) will be used.
+    }
 }
 
 // ─── AnnoStore ─────────────────────────────────────────
@@ -545,7 +558,7 @@ class NotabilityView extends ItemView {
 // ─── Plugin ───────────────────────────────────────────
 export default class NotabilityPlugin extends Plugin {
     async onload() {
-        console.log('Notability PDF v1.2 loaded');
+        console.log('Notability PDF v1.2.1 loaded');
         this.registerView(VIEW_TYPE, (leaf) => new NotabilityView(leaf, this));
 
         this.addCommand({
